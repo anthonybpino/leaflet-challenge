@@ -6,4 +6,5 @@
 
 ##### Sources (USGS json data updated by the minute. Json data may differ from the one that I used)
 data source: https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
+
 geojson: https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson
