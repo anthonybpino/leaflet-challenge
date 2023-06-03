@@ -1,11 +1,6 @@
-// Grab dataset url 
-
+// Create url variable and base map
 
 const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
-
-
-// Create map and map's tile
-
 
 var myMap = L.map("map", {
     center: [37.09, -105.555],
@@ -19,10 +14,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Use d3 to build map using data from json url
 
-
 d3.json(url).then(function(data) {
 
-    // Establish circle color based on depth
+    // Function for map circle colors
     function mapColors(depth) {
         if (depth < 10) {
             return "lightgreen"
@@ -39,15 +33,15 @@ d3.json(url).then(function(data) {
         }
     }
 
-    // Establish radius based on magnitude
+    // Function for the radius of the circles
     function mapRadius(mag) {
         if (mag === 0) {
             return 1;
         }
-        return mag * 2;
+        return mag * 3;
     }
 
-    // Establish other properties of map
+    // Function for the style of the circles
     function mapStyles(feature) {
         return {
             color: "black",
@@ -67,13 +61,12 @@ d3.json(url).then(function(data) {
         },
         style: mapStyles,
         onEachFeature: function(feature, layer) {
-            layer.bindPopup("<strMagnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place + "<br>Quake Depth: " + feature.geometry.coordinates[2]);
+            layer.bindPopup("<strong>EARTHQUAKE</strong> " + "<hr>" + "Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place + "<br>Quake Depth: " + feature.geometry.coordinates[2]);
         }
     }).addTo(myMap);
 
-    // Add legend to map
-
-    var legend = L.control({
+    // Add legend to map, css style finishes the legend
+    var legend = L.control( {
         position: "bottomright"
     });
 
@@ -84,8 +77,7 @@ d3.json(url).then(function(data) {
       div.innerHTML += "<h3 style='text-align: center'>Quake Depth</h3>"
   
       for (var i = 0; i < depth.length; i++) {
-        div.innerHTML +=
-        '<i style="background:' + mapColors(depth[i] + 1) + '"></i> ' + depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
+        div.innerHTML += '<i style="background:' + mapColors(depth[i] + 1) + '"></i> ' + depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
       }
       return div;
     };
